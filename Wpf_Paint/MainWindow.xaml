@@ -1,0 +1,79 @@
+﻿<Window x:Class="Wpf_Paint.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Wpf_Paint"
+        mc:Ignorable="d"
+        Title="小畫家" Height="800" Width="1000">
+    <StackPanel VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Menu Height="24" Width="Auto">
+            <MenuItem Header="✏  小畫家" FontFamily="Microsoft JhengHei" FontWeight="Bold" Height="20" Cursor="Pen">
+                <MenuItem Header="關於小畫家                  " FontWeight="Normal" FontFamily="Microsoft JhengHei" Click="About_Click"  Cursor="Pen"/>
+                <MenuItem Header="結束小畫家              ⌥ F4" FontWeight="Normal" FontFamily="Microsoft JhengHei" Click="bye"  Cursor="Pen"/>
+            </MenuItem>
+            <MenuItem Header="檔案"  Height="20">
+
+                <MenuItem Header="清除畫布" Click="ClearButton_Click"/>
+                <MenuItem Header="儲存畫布" Click="SaveCanvas_Click"/>
+            </MenuItem>
+            <MenuItem Header="色彩"  Height="20">
+                <MenuItem Header="筆刷色彩" Click="StrokeButton_Click"/>
+                <MenuItem Header="填滿色彩" Click="FillButton_Click"/>
+                <StackPanel Orientation="Horizontal">
+                    <Slider x:Name="menuSlider" Orientation="Horizontal" Value="4" TickPlacement="TopLeft" IsSnapToTickEnabled="True" Minimum="1" Maximum="20" Width="146" ValueChanged="menuSlider_ValueChanged"/>
+                    <Label Content="{Binding Value,ElementName=menuSlider}" Width="30"/>
+                </StackPanel>
+            </MenuItem>
+            <MenuItem Header="檢視"  Height="20">
+                <CheckBox x:Name="menuCheckBox" IsChecked="True" Content="顯示工具列" Click="menuCheckBox_Checked" />
+            </MenuItem>
+            <MenuItem Header="工具"  Height="20">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="80" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <RadioButton Grid.Row="0" Grid.Column="0" Content="線條" Height="40" Width="80" GroupName="ShapeGroup1" Click="ShapeButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <RadioButton Grid.Row="0" Grid.Column="1" Content="圓形" Height="40" Width="80" GroupName="ShapeGroup1" Click="ShapeButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <RadioButton Grid.Row="1" Grid.Column="0" Content="長方形" Height="40" Width="80" GroupName="ShapeGroup1" Click="ShapeButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                    <RadioButton Grid.Row="1" Grid.Column="1" Content="橡皮擦" Height="40" Width="80" GroupName="ShapeGroup1" Click="ShapeButton_Click" HorizontalAlignment="Center" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" />
+                </Grid>
+            </MenuItem>
+        </Menu>
+        <ToolBarTray Height="36" Background="#FFEEF5FD" ToolBar.OverflowMode="Never">
+            <ToolBar HorizontalAlignment="Right" Background="#FFEEF5FD" Width="266" Height="41" VerticalAlignment="Center" ToolBar.OverflowMode="Never">
+                <Button x:Name="StrokeButton" Content="筆刷色彩" HorizontalAlignment="Right" VerticalAlignment="Top" Height="36" Width="64" Background="{x:Null}" BorderBrush="{x:Null}" ToolBar.OverflowMode="Never"/>
+                <Slider x:Name="StrokeThicknessSlider" HorizontalAlignment="Left" VerticalAlignment="Center" Width="97" Value="3" Height="18" Orientation="Horizontal" RenderTransformOrigin="0.5,0.5" ToolBar.OverflowMode="Never">
+                    <Slider.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform/>
+                            <SkewTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Slider.RenderTransform>
+                </Slider>
+                <Label x:Name="StrokeThicknessLabel" Content="{Binding Value, ElementName=StrokeThicknessSlider}" HorizontalAlignment="Left" VerticalAlignment="Center" ToolBar.OverflowMode="Never" FontFamily="Microsoft Sans Serif" />
+                <Button x:Name="Button2_Copy" Content="填滿色彩" Height="36" Width="64" Background="{x:Null}" BorderBrush="{x:Null}" ToolBar.OverflowMode="Never"/>
+            </ToolBar>
+
+            <ToolBar Background="#FFEEF5FD" HorizontalAlignment="Center" Width="280" Height="41" VerticalAlignment="Bottom" ToolBar.OverflowMode="Never">
+                <Button x:Name="BLineButton" Content="線條" HorizontalAlignment="Right" VerticalAlignment="Top" Height="36" Width="64" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Microsoft Sans Serif" ToolBar.OverflowMode="Never"/>
+                <Button x:Name="RectangleButton" Content="方形" Height="36" Width="64" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Microsoft Sans Serif" ToolBar.OverflowMode="Never"/>
+                <Button x:Name="EllipseButton" Content="圓形" Height="36" Width="64" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Microsoft Sans Serif" ToolBar.OverflowMode="Never"/>
+                <Button x:Name="EraseButton" Content="橡皮擦" Height="36" Width="64" Background="{x:Null}" BorderBrush="{x:Null}" FontFamily="Microsoft Sans Serif" ToolBar.OverflowMode="Never"/>
+            </ToolBar>
+            <ToolBar Background="#FFEEF5FD" Height="41" VerticalAlignment="Center" HorizontalAlignment="Right" Width="88" ToolBar.OverflowMode="Never">
+                <Button x:Name="ClearButton" Content="清除" Height="36" Width="64" Background="{x:Null}" BorderBrush="{x:Null}" HorizontalAlignment="Left" VerticalAlignment="Top" ToolBar.OverflowMode="Never"/>
+            </ToolBar>
+        </ToolBarTray>
+        <Canvas x:Name="myCanvas" Background="White" VerticalAlignment="Stretch" Height="600" MouseLeftButtonDown="myCanvas_MouseLeftButtonDown"/>
+        <StatusBar Height="100" VerticalAlignment="Top">
+            <Label x:Name="myLabel" Height="33" Width="600"></Label> >
+        </StatusBar>
+    </StackPanel>
+</Window>
